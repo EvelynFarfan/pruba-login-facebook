@@ -17,11 +17,11 @@
      // Iniciamos el sdk y su configuración
       window.fbAsyncInit = function() {
          FB.init({
-          appId      : 'introduce_tu_appid', //la appid de tu aplicación facebook
+          appId    : '187902301579677', //la appid de tu aplicación facebook
           status	 : true,
-		  cookie	 : true,
-		  xfbml		 : true,
-		  oauth 	 : true //enables OAuth 2.0
+    		  cookie	 : true,
+    		  xfbml		 : true,
+    		  oauth 	 : true //enables OAuth 2.0
         });
  
         //manejador para comprobar si el status del usuario ha cambiado o no 
@@ -36,7 +36,7 @@
           } else {
             //si el usuario no tiene permiso porque ha cerrado sesión o simplemente
             //no tiene permisos de la aplicación redirigimos al login
-            window.location = "http://localhost/jquery/fblogin.html";
+            window.location = "https://efarfan2393.github.io/pruba-login-facebook";
           }
         });
 		//al pulsar en salir cerramos sesión y mandamos al inicio
