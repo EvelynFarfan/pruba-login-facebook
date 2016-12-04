@@ -1,7 +1,8 @@
-<!DOCTYPE html>  
+<!-- <!DOCTYPE html>  
   <head>  
     <title>Ejemplo FB</title>  
-    <script>  
+    <script> 
+    // cargamos el sdk de forma asincrónica 
       (function(d,s,id) {  
           var js, fjs = d.getElementsByTagName(s)[0];  
           if(d.getElementById(id)) return;  
@@ -9,7 +10,7 @@
           js.src = "https://connect.facebook.net/en_US/sdk.js";  
           fjs.parentNode.insertBefore(js, fjs);  
       }(document, 'script', 'facebook-jssdk'));  
-
+      // Iniciamos el sdk y su configuración
       window.fbAsyncInit = function() {  
           FB.init({  
               appId : '187902301579677',  
@@ -43,4 +44,60 @@
       <fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>  
       <button onclick="ingresar();">Ingresar con Facebook</button>  
   </body>  
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Autentificación con el sdk de facebook</title>
+  </head>
+  <body>
+    <div id="fb-root"></div>
+    <script>
+      // cargamos el sdk de forma asincrónica
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+
+      // Iniciamos el sdk y su configuración
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : 'introduce_tu_appid',// la appid de tu aplicación facebook
+          status	 : true,
+		  cookie	 : true,
+		  xfbml		 : true,
+		  oauth 	 : true // habilita oauth 2.0
+        });
+
+         //manejador para comprobar si el status del usuario ha cambiado o no 
+        FB.Event.subscribe('auth.statusChange', function(response) {
+	        if (response.authResponse) {
+	          //si el usuario es logueado correctamente hacemos lo que queramos
+	          //en nuestro caso redirigimos
+	          FB.api('/me', function(me){
+		          if (me.name) {
+		          	 //en vez de redirigir, como la petición es realizada
+		          	 //sin refrescar, podemos hacer cualquier interacción
+		          	 //sin movernos de la página
+		             window.location = "http://localhost/jquery/home.html";
+		          }
+	          })
+	        } 
+        });
+
+        //evento para iniciar sesión y pedir los permisos que pasemos en scope
+        document.getElementById('login').addEventListener('click', function(){
+         FB.login(function(){}, { scope: 'email,publish_stream,user_birthday,user_location' });
+        });
+      } 
+    </script>
+
+    <h1>Ejemplo de login con el sdk de facebook</h1>
+			<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"> </fb:login-button>  
+      <a href="#" id="login">Login</a>
+  </body>
 </html>
